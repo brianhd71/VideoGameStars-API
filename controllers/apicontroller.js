@@ -33,23 +33,23 @@ module.exports = function(app) {
     });
 
     app.post('/api/user', function(req, res) {
+        var newUser = Users({
+            username: req.body.username,
+            thumbnail:  req.body.thumbnail
+        });
+        newUser.save(function(err) {
+            if (err) throw err;
 
+            res.send('Success');
+        });
+    });
+
+    app.put('/api/user', function(req, res) {
         if (req.body.id) {
             Users.findByIdAndUpdate(req.body.id, {
                 username: req.body.username,
                 thumbnail: req.body.thumbnail
             }, function(err, User) {
-                if (err) throw err;
-
-                res.send('Success');
-            });
-        }
-        else {
-            var newUser = Users({
-                username: req.body.username,
-                thumbnail:  req.body.thumbnail
-            });
-            newUser.save(function(err) {
                 if (err) throw err;
 
                 res.send('Success');
